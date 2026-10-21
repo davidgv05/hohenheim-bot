@@ -1,11 +1,7 @@
 {
-  "name": "hohenheimtelegrambot",
+  "name": "hohenheim-bot",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "description": "Telegram bot for Uni Hohenheim students: deadline reminders and Mensa menu",
   "scripts": {
     "test": "vitest run",
     "dev": "tsx watch src/index.ts",
@@ -14,8 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "David",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "dotenv": "^18.0.8",
@@ -33,5 +29,9 @@
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22"
   }
 }
