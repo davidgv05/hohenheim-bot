@@ -1,3 +1,4 @@
+import { startJobs } from "./jobs/worker.js";
 import { config } from "./config.js";
 import { logger } from "./lib/logger.js";
 import { pool } from "./db/client.js";
@@ -29,6 +30,14 @@ await bot.api.setMyCommands([
   { command: "help", description: "Hilfe anzeigen" },
 ]);
 
+let boss;
+try {
+  boss = await startJobs(bot.api, deadlines);
+} catch (err) {
+  logger.fatal({ err }, "Cannot start job queue");
+  process.exit(1);
+}
+
 process.once("SIGINT", () => bot.stop());
 process.once("SIGTERM", () => bot.stop());
 
@@ -37,5 +46,6 @@ await bot.start({
   onStart: (me) => logger.info(`Bot @${me.username} is running`),
 });
 
+await boss.stop();
 await pool.end();
 logger.info("Shut down cleanly");
