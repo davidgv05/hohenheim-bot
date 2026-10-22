@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { stringify } from "yaml";
-import { parseDeadlines, loadDeadlines } from "../src/services/deadlines.js";
+import { parseDeadlines, loadDeadlines, upcomingDeadlines, type Deadline } from "../src/services/deadlines.js";
 
 const validDeadline = {
   id: "test-registration",
@@ -49,5 +49,54 @@ describe("data/deadlines.yaml", () => {
   it("is valid", () => {
     const deadlines = loadDeadlines();
     expect(deadlines.length).toBeGreaterThan(0);
+  });
+});
+
+
+
+function makeDeadline(id: string, start: string, end?: string): Deadline {
+  return {
+    id,
+    title: "Test",
+    category: "exams",
+    start,
+    end,
+    faculty: "all",
+    source: "https://www.uni-hohenheim.de/semestertermine",
+  };
+}
+
+describe("upcomingDeadlines", () => {
+  const today = "2026-11-16";
+
+  it("drops deadlines that ended before today", () => {
+    const result = upcomingDeadlines(
+      [makeDeadline("ended-yesterday", "2026-11-01", "2026-11-15")],
+      today,
+    );
+    expect(result).toEqual([]);
+  });
+
+  it("keeps running deadlines and those ending today", () => {
+    const result = upcomingDeadlines(
+      [
+        makeDeadline("running", "2026-11-10", "2026-12-01"),
+        makeDeadline("ends-today", "2026-11-01", "2026-11-16"),
+      ],
+      today,
+    );
+    expect(result.map((d) => d.id)).toEqual(["running", "ends-today"]);
+  });
+
+  it("handles single-day deadlines without an end date", () => {
+    const result = upcomingDeadlines(
+      [
+        makeDeadline("yesterday", "2026-11-15"),
+        makeDeadline("today", "2026-11-16"),
+        makeDeadline("tomorrow", "2026-11-17"),
+      ],
+      today,
+    );
+    expect(result.map((d) => d.id)).toEqual(["today", "tomorrow"]);
   });
 });

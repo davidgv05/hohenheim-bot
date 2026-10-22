@@ -56,3 +56,9 @@ export function loadDeadlines(): Deadline[] {
   const text = readFileSync(DEADLINES_FILE, "utf8");
   return parseDeadlines(text);
 }
+
+
+
+export function upcomingDeadlines(deadlines: Deadline[], today: string): Deadline[] {
+  return deadlines.filter((d) => (d.end ?? d.start) >= today);
+}
