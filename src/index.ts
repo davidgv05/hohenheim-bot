@@ -1,7 +1,16 @@
 import { config } from "./config.js";
 import { logger } from "./lib/logger.js";
 import { pool } from "./db/client.js";
+import { loadDeadlines } from "./services/deadlines.js";
 import { createBot } from "./bot/bot.js";
+
+try {
+  const deadlines = loadDeadlines();
+  logger.info({ count: deadlines.length }, "Deadlines loaded");
+} catch (err) {
+  logger.fatal({ err }, "Cannot load deadlines – check data/deadlines.yaml");
+  process.exit(1);
+}
 
 try {
   await pool.query("select 1");
