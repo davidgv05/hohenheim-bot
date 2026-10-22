@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
+import type { User } from "../src/services/users.js";
+import { remindersDueOn, isRecipient, formatReminder } from "../src/services/reminders.js";
 import type { Deadline } from "../src/services/deadlines.js";
-import { remindersDueOn } from "../src/services/reminders.js";
 
 function makeDeadline(
   id: string,
@@ -62,5 +63,45 @@ describe("remindersDueOn", () => {
     const short = makeDeadline("short", "exam-registration", "2026-11-16", "2026-11-19");
     const keys = remindersDueOn([short], "2026-11-12").map((r) => r.key);
     expect(keys).toEqual([]);
+  });
+});
+
+
+
+
+function makeUser(faculty: string | null, isActive = true): User {
+  return { chatId: 1, faculty, language: "de", isActive, createdAt: new Date() };
+}
+
+const wOnly: Deadline = { ...exams, faculty: "W" };
+
+describe("isRecipient", () => {
+  it("sends deadlines for all faculties to every active user", () => {
+    expect(isRecipient(makeUser(null), exams)).toBe(true);
+    expect(isRecipient(makeUser("A"), exams)).toBe(true);
+  });
+
+  it("sends Fakultät W deadlines to W users and to users without a faculty", () => {
+    expect(isRecipient(makeUser("W"), wOnly)).toBe(true);
+    expect(isRecipient(makeUser(null), wOnly)).toBe(true);
+    expect(isRecipient(makeUser("A"), wOnly)).toBe(false);
+  });
+
+  it("never sends to inactive users", () => {
+    expect(isRecipient(makeUser(null, false), exams)).toBe(false);
+  });
+});
+
+describe("formatReminder", () => {
+  it("names the deadline and its period when it opens", () => {
+    const text = formatReminder({ deadline: registration, kind: "opens-today", key: "reg:opens-today" });
+    expect(text).toContain("Ab heute: Test");
+    expect(text).toContain("Mo., 16.11.2026 – Mi., 16.12.2026");
+  });
+
+  it("names the last day before it closes", () => {
+    const text = formatReminder({ deadline: registration, kind: "closes-tomorrow", key: "reg:closes-tomorrow" });
+    expect(text).toContain("Morgen ist der letzte Tag: Test");
+    expect(text).toContain("Mi., 16.12.2026");
   });
 });
