@@ -1,3 +1,4 @@
+import { autoRetry } from "@grammyjs/auto-retry";
 import { Bot } from "grammy";
 import { config } from "../config.js";
 import { logger } from "../lib/logger.js";
@@ -8,6 +9,7 @@ import { deadlinesCommand } from "./commands/deadlines.js";
 
 export function createBot(deadlines: Deadline[]) {
   const bot = new Bot(config.BOT_TOKEN);
+  bot.api.config.use(autoRetry());
 
   bot.command("start", startCommand);
   bot.command("help", helpCommand);
