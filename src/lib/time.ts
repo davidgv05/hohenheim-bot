@@ -14,4 +14,14 @@ export function formatDate(isoDate: string): string {
   return DateTime.fromISO(isoDate, { zone: ZONE })
     .setLocale("de")
     .toFormat("EEE, dd.MM.yyyy");
+
+}
+
+
+export function addDays(isoDate: string, days: number): string {
+  const result = DateTime.fromISO(isoDate, { zone: ZONE }).plus({ days }).toISODate();
+  if (result === null) {
+    throw new Error(`Invalid date passed to addDays: ${isoDate}`);
+  }
+  return result;
 }

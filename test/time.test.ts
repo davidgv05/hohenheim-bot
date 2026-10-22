@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { todayInBerlin, formatDate } from "../src/lib/time.js";
+import { todayInBerlin, formatDate,addDays } from "../src/lib/time.js";
 
 describe("todayInBerlin", () => {
   it("is already the next day in Berlin shortly after midnight", () => {
@@ -16,5 +16,16 @@ describe("todayInBerlin", () => {
 describe("formatDate", () => {
   it("formats a date in German with the weekday", () => {
     expect(formatDate("2026-11-16")).toBe("Mo., 16.11.2026");
+  });
+});
+
+
+describe("addDays", () => {
+  it("counts calendar days across the clock change", () => {
+    expect(addDays("2026-10-24", 2)).toBe("2026-10-26");
+  });
+
+  it("goes backwards with negative numbers", () => {
+    expect(addDays("2026-12-16", -7)).toBe("2026-12-09");
   });
 });
