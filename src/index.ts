@@ -1,11 +1,12 @@
 import { config } from "./config.js";
 import { logger } from "./lib/logger.js";
 import { pool } from "./db/client.js";
-import { loadDeadlines } from "./services/deadlines.js";
+import { loadDeadlines, type Deadline } from "./services/deadlines.js";
 import { createBot } from "./bot/bot.js";
 
+let deadlines: Deadline[];
 try {
-  const deadlines = loadDeadlines();
+  deadlines = loadDeadlines();
   logger.info({ count: deadlines.length }, "Deadlines loaded");
 } catch (err) {
   logger.fatal({ err }, "Cannot load deadlines – check data/deadlines.yaml");
@@ -20,10 +21,11 @@ try {
   process.exit(1);
 }
 
-const bot = createBot();
+const bot = createBot(deadlines);
 
 await bot.api.setMyCommands([
   { command: "start", description: "Bot starten" },
+  { command: "deadlines", description: "Nächste Fristen anzeigen" },
   { command: "help", description: "Hilfe anzeigen" },
 ]);
 
