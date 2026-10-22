@@ -1,4 +1,5 @@
 import { autoRetry } from "@grammyjs/auto-retry";
+import { runRemindersCommand } from "./commands/admin.js";
 import { Bot } from "grammy";
 import { config } from "../config.js";
 import { logger } from "../lib/logger.js";
@@ -14,6 +15,7 @@ export function createBot(deadlines: Deadline[]) {
   bot.command("start", startCommand);
   bot.command("help", helpCommand);
   bot.command("deadlines", (ctx) => deadlinesCommand(ctx, deadlines));
+  bot.command("runreminders", (ctx) => runRemindersCommand(ctx, deadlines));
 
   bot.catch((err) => {
     logger.error({ err: err.error, updateId: err.ctx.update.update_id }, "Unhandled bot error");
