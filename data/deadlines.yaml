@@ -1,0 +1,57 @@
+# Deadlines for Uni Hohenheim, winter semester 2026/27.
+# Source: https://www.uni-hohenheim.de/semestertermine
+# Dates are YYYY-MM-DD. "end" is omitted for single-day deadlines.
+
+- id: ws2627-exam-registration
+  title: Anmeldung zu den Modulprüfungen
+  category: exam-registration
+  start: 2026-11-16
+  end: 2026-12-16
+  faculty: all
+  source: https://www.uni-hohenheim.de/semestertermine
+
+- id: ws2627-christmas-break
+  title: Weihnachtsferien (vorlesungsfrei)
+  category: semester
+  start: 2026-12-23
+  end: 2027-01-06
+  faculty: all
+  source: https://www.uni-hohenheim.de/semestertermine
+
+- id: ws2627-exams-decentral-w
+  title: Dezentrale Prüfungen Fakultät W
+  category: exams
+  start: 2027-01-25
+  end: 2027-02-05
+  faculty: W
+  source: https://www.uni-hohenheim.de/semestertermine
+
+- id: ws2627-lectures-end
+  title: Vorlesungsende
+  category: semester
+  start: 2027-02-06
+  faculty: all
+  source: https://www.uni-hohenheim.de/semestertermine
+
+- id: ws2627-exams-1
+  title: 1. Prüfungsperiode
+  category: exams
+  start: 2027-02-08
+  end: 2027-02-26
+  faculty: all
+  source: https://www.uni-hohenheim.de/semestertermine
+
+- id: ss27-re-registration
+  title: Rückmeldefrist zum Sommersemester 2027
+  category: re-registration
+  start: 2027-02-15
+  faculty: all
+  source: https://www.uni-hohenheim.de/semestertermine
+
+- id: ws2627-exams-2
+  title: 2. Prüfungsperiode
+  category: exams
+  start: 2027-03-22
+  end: 2027-04-02
+  faculty: all
+  source: https://www.uni-hohenheim.de/semestertermine
