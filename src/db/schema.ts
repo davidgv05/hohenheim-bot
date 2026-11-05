@@ -1,4 +1,5 @@
-import { pgTable, bigint, text, boolean, timestamp,primaryKey } from "drizzle-orm/pg-core";
+import { pgTable, bigint, text, boolean, timestamp, primaryKey, date, jsonb } from "drizzle-orm/pg-core";
+import type { Meal } from "../services/mensa.js";
 
 export const users = pgTable("users", {
   chatId: bigint("chat_id", { mode: "number" }).primaryKey(),
@@ -20,3 +21,10 @@ export const remindersSent = pgTable(
   },
   (table) => [primaryKey({ columns: [table.chatId, table.reminderKey] })],
 );
+
+
+export const mensaDays = pgTable("mensa_days", {
+  date: date("date", { mode: "string" }).primaryKey(),
+  meals: jsonb("meals").$type<Meal[]>().notNull(),
+  fetchedAt: timestamp("fetched_at", { withTimezone: true }).notNull().defaultNow(),
+});
