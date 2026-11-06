@@ -8,7 +8,8 @@ import { startCommand } from "./commands/start.js";
 import { helpCommand } from "./commands/help.js";
 import { deadlinesCommand } from "./commands/deadlines.js";
 import { settingsCommand, settingsButton } from "./commands/settings.js";
-
+import { privacyCommand } from "./commands/privacy.js";
+import { deleteCommand, deleteButton } from "./commands/delete.js";
 
 
 export function createBot(deadlines: Deadline[]) {
@@ -23,6 +24,9 @@ export function createBot(deadlines: Deadline[]) {
   bot.command("runreminders", (ctx) => runRemindersCommand(ctx, deadlines));
   bot.command("mensa", mensaCommand);
   bot.callbackQuery(/^mensa:\d{4}-\d{2}-\d{2}$/, mensaButton);
+  bot.command("privacy", privacyCommand);
+  bot.command("delete", deleteCommand);
+  bot.callbackQuery(/^delete:(confirm|cancel)$/, deleteButton);
   bot.catch((err) => {
     logger.error({ err: err.error, updateId: err.ctx.update.update_id }, "Unhandled bot error");
   });

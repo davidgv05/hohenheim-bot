@@ -40,3 +40,8 @@ export async function setFaculty(chatId: number, faculty: FacultyCode | null): P
 export async function setRemindersEnabled(chatId: number, enabled: boolean): Promise<void> {
   await db.update(users).set({ remindersEnabled: enabled }).where(eq(users.chatId, chatId));
 }
+
+export async function deleteUser(chatId: number): Promise<boolean> {
+  const deleted = await db.delete(users).where(eq(users.chatId, chatId)).returning();
+  return deleted.length > 0;
+}
