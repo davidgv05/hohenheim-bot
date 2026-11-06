@@ -1,11 +1,7 @@
 import type { CommandContext, Context } from "grammy";
+import { COMMANDS } from "../commandList.js";
 
 export async function helpCommand(ctx: CommandContext<Context>) {
-  await ctx.reply(
-    "Verfügbare Befehle:\n" +
-      "/start – Bot starten\n" +
-      "/deadlines – Nächste Fristen anzeigen\n" +
-      "/mensa – Mensa-Speiseplan anzeigen\n" +
-      "/help – Hilfe",
-  );
+  const lines = COMMANDS.map((c) => `/${c.command} – ${c.description}`);
+  await ctx.reply(`Verfügbare Befehle:\n${lines.join("\n")}`);
 }

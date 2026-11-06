@@ -4,6 +4,9 @@ import { logger } from "./lib/logger.js";
 import { pool } from "./db/client.js";
 import { loadDeadlines, type Deadline } from "./services/deadlines.js";
 import { createBot } from "./bot/bot.js";
+import { COMMANDS } from "./bot/commandList.js"
+
+
 
 let deadlines: Deadline[];
 try {
@@ -24,12 +27,7 @@ try {
 
 const bot = createBot(deadlines);
 
-await bot.api.setMyCommands([
-  { command: "start", description: "Bot starten" },
-  { command: "deadlines", description: "Nächste Fristen anzeigen" },
-  { command: "help", description: "Hilfe anzeigen" },
-  { command: "mensa", description: "Mensa-Speiseplan anzeigen" },
-]);
+await bot.api.setMyCommands(COMMANDS);
 
 let boss;
 try {

@@ -69,8 +69,8 @@ describe("remindersDueOn", () => {
 
 
 
-function makeUser(faculty: string | null, isActive = true): User {
-  return { chatId: 1, faculty, language: "de", isActive, createdAt: new Date() };
+function makeUser(faculty: string | null, isActive = true, remindersEnabled = true): User {
+  return { chatId: 1, faculty, language: "de", isActive, remindersEnabled, createdAt: new Date() };
 }
 
 const wOnly: Deadline = { ...exams, faculty: "W" };
@@ -79,6 +79,10 @@ describe("isRecipient", () => {
   it("sends deadlines for all faculties to every active user", () => {
     expect(isRecipient(makeUser(null), exams)).toBe(true);
     expect(isRecipient(makeUser("A"), exams)).toBe(true);
+  });
+
+  it("never sends to users who turned reminders off", () => {
+    expect(isRecipient(makeUser(null, true, false), exams)).toBe(false);
   });
 
   it("sends Fakultät W deadlines to W users and to users without a faculty", () => {

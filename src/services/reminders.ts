@@ -53,6 +53,7 @@ export function remindersDueOn(deadlines: Deadline[], today: string): DueReminde
 
 export function isRecipient(user: User, deadline: Deadline): boolean {
   if (!user.isActive) return false;
+  if (!user.remindersEnabled) return false;
   if (deadline.faculty === "all") return true;
   return user.faculty === null || user.faculty === deadline.faculty;
 }
