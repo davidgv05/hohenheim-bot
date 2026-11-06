@@ -7,6 +7,9 @@ import type { Deadline } from "../services/deadlines.js";
 import { startCommand } from "./commands/start.js";
 import { helpCommand } from "./commands/help.js";
 import { deadlinesCommand } from "./commands/deadlines.js";
+import { settingsCommand, settingsButton } from "./commands/settings.js";
+
+
 
 export function createBot(deadlines: Deadline[]) {
   const bot = new Bot(config.BOT_TOKEN);
@@ -14,6 +17,8 @@ export function createBot(deadlines: Deadline[]) {
 
   bot.command("start", startCommand);
   bot.command("help", helpCommand);
+  bot.command("settings", settingsCommand);
+  bot.callbackQuery(/^settings:/, settingsButton);
   bot.command("deadlines", (ctx) => deadlinesCommand(ctx, deadlines));
   bot.command("runreminders", (ctx) => runRemindersCommand(ctx, deadlines));
   bot.command("mensa", mensaCommand);
