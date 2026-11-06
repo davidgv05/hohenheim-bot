@@ -39,3 +39,15 @@ export async function fetchMeals(date: string, fetchFn: typeof fetch = fetch): P
 
   return parseMeals(await response.json());
 }
+
+
+export function dietLabel(meal: Meal): "vegan" | "vegetarisch" | null {
+  const notes = meal.notes.map((n) => n.toLowerCase());
+  if (meal.category.toLowerCase().includes("vegan") || notes.includes("vegan")) {
+    return "vegan";
+  }
+  if (notes.includes("vegetarisch")) {
+    return "vegetarisch";
+  }
+  return null;
+}

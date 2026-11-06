@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { todayInBerlin, formatDate,addDays } from "../src/lib/time.js";
+import { todayInBerlin, formatDate,addDays,nextWeekday,formatDateTime } from "../src/lib/time.js";
 
 describe("todayInBerlin", () => {
   it("is already the next day in Berlin shortly after midnight", () => {
@@ -27,5 +27,22 @@ describe("addDays", () => {
 
   it("goes backwards with negative numbers", () => {
     expect(addDays("2026-12-16", -7)).toBe("2026-12-09");
+  });
+});
+
+
+describe("nextWeekday", () => {
+  it("goes to the next day during the week", () => {
+    expect(nextWeekday("2026-11-04")).toBe("2026-11-05");
+  });
+
+  it("skips the weekend", () => {
+    expect(nextWeekday("2026-11-06")).toBe("2026-11-09");
+  });
+});
+
+describe("formatDateTime", () => {
+  it("shows a UTC moment in Berlin time", () => {
+    expect(formatDateTime(new Date("2026-11-05T17:56:43Z"))).toBe("05.11., 18:56 Uhr");
   });
 });

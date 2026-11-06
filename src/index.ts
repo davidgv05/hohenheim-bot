@@ -28,6 +28,7 @@ await bot.api.setMyCommands([
   { command: "start", description: "Bot starten" },
   { command: "deadlines", description: "Nächste Fristen anzeigen" },
   { command: "help", description: "Hilfe anzeigen" },
+  { command: "mensa", description: "Mensa-Speiseplan anzeigen" },
 ]);
 
 let boss;
@@ -46,6 +47,6 @@ await bot.start({
   onStart: (me) => logger.info(`Bot @${me.username} is running`),
 });
 
-await boss.stop();
-await pool.end();
-logger.info("Shut down cleanly");
+  await boss.stop();
+  await pool.end();
+  logger.info("Shut down cleanly");

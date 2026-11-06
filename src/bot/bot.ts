@@ -1,4 +1,4 @@
-import { autoRetry } from "@grammyjs/auto-retry";
+import { mensaCommand, mensaButton } from "./commands/mensa.js";import { autoRetry } from "@grammyjs/auto-retry";
 import { runRemindersCommand } from "./commands/admin.js";
 import { Bot } from "grammy";
 import { config } from "../config.js";
@@ -16,7 +16,8 @@ export function createBot(deadlines: Deadline[]) {
   bot.command("help", helpCommand);
   bot.command("deadlines", (ctx) => deadlinesCommand(ctx, deadlines));
   bot.command("runreminders", (ctx) => runRemindersCommand(ctx, deadlines));
-
+  bot.command("mensa", mensaCommand);
+  bot.callbackQuery(/^mensa:\d{4}-\d{2}-\d{2}$/, mensaButton);
   bot.catch((err) => {
     logger.error({ err: err.error, updateId: err.ctx.update.update_id }, "Unhandled bot error");
   });
