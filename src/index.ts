@@ -5,8 +5,7 @@ import { pool } from "./db/client.js";
 import { loadDeadlines, type Deadline } from "./services/deadlines.js";
 import { createBot } from "./bot/bot.js";
 import { COMMANDS } from "./bot/commandList.js"
-
-
+import { runMigrations } from "./db/migrate.js";
 
 let deadlines: Deadline[];
 try {
@@ -24,6 +23,19 @@ try {
   logger.fatal({ err }, "Cannot connect to database – is Docker running?");
   process.exit(1);
 }
+
+
+
+try {
+  await runMigrations();
+  logger.info("Database migrations applied");
+} catch (err) {
+  logger.fatal({ err }, "Database migration failed");
+  process.exit(1);
+}
+
+
+
 
 const bot = createBot(deadlines);
 
